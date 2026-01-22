@@ -1,18 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0" />
-    <title>Игра память</title>
-    <link
-      rel="stylesheet"
-      href="./style.css" />
-  </head>
-  <body class="body">
-    <script
-      type="text/javascript"
-      src="./game.js"></script>
-  </body>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра «Память»</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="main">
+    <header class="card header">
+        <h1>Игра «Память»</h1>
+    </header>
+
+    <section class="card settings">
+        <div class="form-group">
+            <label for="game-mode">Режим игры</label>
+            <select id="game-mode" name="mode">
+                <option value="basic">Обычный</option>
+                <option value="limited">С лимитом попыток</option>
+                <option value="timed">На время</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="game-difficulty">Уровень сложности</label>
+            <select id="game-difficulty" name="difficulty">
+                <option value="easy">Лёгкий</option>
+                <option value="medium">Средний</option>
+                <option value="hard">Сложный</option>
+            </select>
+        </div>
+        <button type="button" class="btn start-game-button">Начать игру</button>
+    </section>
+
+    <section class="card results">
+        <p class="results__empty">Пока нет результатов</p>
+
+        <div class="results__mode results__mode--basic hidden">
+            <h3>Обычный режим</h3>
+            <table class="results__table">
+                <thead>
+                    <tr>
+                        <th>Уровень сложности</th>
+                        <th>Результат</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-difficulty="easy">
+                        <td>Лёгкий</td>
+                        <td class="result-value">-</td>
+                    </tr>
+                    <tr data-difficulty="medium">
+                        <td>Средний</td>
+                        <td class="result-value">-</td>
+                    </tr>
+                    <tr data-difficulty="hard">
+                        <td>Сложный</td>
+                        <td class="result-value">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="results__mode results__mode--limited hidden">
+            <h3>Режим с лимитом попыток</h3>
+            <table class="results__table">
+                <thead>
+                    <tr>
+                        <th>Уровень сложности</th>
+                        <th>Результат</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-difficulty="easy">
+                        <td>Лёгкий</td>
+                        <td class="result-value">-</td>
+                    </tr>
+                    <tr data-difficulty="medium">
+                        <td>Средний</td>
+                        <td class="result-value">-</td>
+                    </tr>
+                    <tr data-difficulty="hard">
+                        <td>Сложный</td>
+                        <td class="result-value">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="results__mode results__mode--timed hidden">
+            <h3>Режим на время</h3>
+            <table class="results__table">
+                <thead>
+                    <tr>
+                        <th>Уровень сложности</th>
+                        <th>Результат</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-difficulty="easy">
+                        <td>Лёгкий</td>
+                        <td class="result-value">-</td>
+                    </tr>
+                    <tr data-difficulty="medium">
+                        <td>Средний</td>
+                        <td class="result-value">-</td>
+                    </tr>
+                    <tr data-difficulty="hard">
+                        <td>Сложный</td>
+                        <td class="result-value">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="card game hidden">
+        <div class="game__stats">
+            <div class="stat stat--pairs">
+                <span class="stat__label">Найдено пар:</span>
+                <span class="stat__value game__counter">0 / 6</span>
+            </div>
+            <div class="stat stat--attempts hidden">
+                <span class="stat__label">Осталось попыток:</span>
+                <span class="stat__value game__attempts">24 / 24</span>
+            </div>
+            <div class="stat stat--timer hidden">
+                <span class="stat__label">Осталось времени:</span>
+                <span class="stat__value game__timer">01:00</span>
+            </div>
+        </div>
+        <div class="game__cards"></div>
+        <div class="button-group">
+            <button type="button" class="btn restart-button">Начать сначала</button>
+            <button type="button" class="btn back-to-menu-button">Вернуться в меню</button>
+        </div>
+    </section>
+
+    <section class="card modal hidden">
+        <h2 class="modal__message"></h2>
+        <p class="modal__current-result"></p>
+        <p class="modal__best-result"></p>
+        <div class="button-group">
+            <button type="button" class="btn restart-button">Начать сначала</button>
+            <button type="button" class="btn back-to-menu-button">Вернуться в меню</button>
+        </div>
+    </section>
+</main>
+<script src="game.js"></script>
+</body>
 </html>

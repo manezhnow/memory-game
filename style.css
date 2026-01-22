@@ -1,19 +1,293 @@
-/* Базовые стили */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-  --main-color: rgba(8, 12, 22, 0.862);
-  --lighten-main-color: rgba(11, 20, 42, 0.775);
-  --card-front-color: #293852;
-  --accent-color: #0f1f4a;  /* также используется для цвета задней стороны карточки */
-  --lighten-accent-color: #2f5eac; /* также используется для цвета перевернутой карточки */
-  --select-color: #162859;
-  --body-background: linear-gradient(
-    135deg,
-    var(--lighten-main-color) 0%,
-    var(--main-color) 100%
-  );
+:root {
+    --primary-color: rgb(240, 240, 240);
+    --secondary-color: rgb(200, 200, 200);
+    --accent-color: rgb(160, 160, 160);
+    --selection-color: rgb(255, 100, 0);
+    --shadow-color: rgb(80, 80, 80);
+
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    --container-max-width: 600px;
+    --card-size: clamp(40px, 12vw, 80px);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: var(--spacing-md);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-color: var(--secondary-color);
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: var(--container-max-width);
+    gap: var(--spacing-md);
+}
+
+.card {
+    width: 100%;
+    padding: var(--spacing-lg);
+    background-color: var(--primary-color);
+    box-shadow: 8px 8px 0 var(--shadow-color);
+}
+
+.btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    border: 2px solid var(--shadow-color);
+    box-shadow: 4px 4px 0 var(--shadow-color);
+    outline: none;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.btn:hover {
+    background-color: var(--secondary-color);
+}
+
+.btn:focus {
+    border-color: var(--selection-color);
+}
+
+.btn:active {
+    border-color: var(--selection-color);
+    box-shadow: 2px 2px 0 var(--shadow-color);
+    transform: translate(2px, 2px);
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: var(--spacing-sm);
+}
+
+.button-group .btn {
+    flex: 1 1 auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+label {
+    font-weight: 600;
+}
+
+select {
+    padding: var(--spacing-sm);
+    padding-right: 2.5rem;
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: var(--primary-color);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233c3c3c' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--spacing-sm) center;
+    border: 2px solid var(--shadow-color);
+    box-shadow: 4px 4px 0 var(--shadow-color);
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+}
+
+select:focus {
+    border-color: var(--selection-color);
+}
+
+.header {
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
+.settings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.settings .form-group {
+    flex: 1 1 200px;
+}
+
+.settings .btn {
+    width: 100%;
+}
+
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.results__empty {
+    text-align: center;
+    color: var(--shadow-color);
+}
+
+.results__mode h3 {
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.1rem;
+}
+
+.results__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.results__table th,
+.results__table td {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    text-align: left;
+    border-bottom: 1px solid var(--accent-color);
+}
+
+.results__table th {
+    font-weight: 600;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.game__stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm) var(--spacing-md);
+}
+
+.game__cards {
+    display: grid;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) 0;
+}
+
+.game__cards.easy {
+    grid-template-columns: repeat(4, var(--card-size));
+}
+
+.game__cards.medium {
+    grid-template-columns: repeat(4, var(--card-size));
+}
+
+.game__cards.hard {
+    grid-template-columns: repeat(6, var(--card-size));
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.stat__label {
+    font-weight: 600;
+}
+
+.stat__value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--selection-color);
+}
+
+.flip-card {
+    width: var(--card-size);
+    height: var(--card-size);
+    cursor: pointer;
+    perspective: 1000px;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+    background-color: var(--accent-color);
+}
+
+.flip-card-back {
+    font-size: 2rem;
+    background-color: var(--selection-color);
+    transform: rotateY(180deg);
+}
+
+.flip-card.matched .flip-card-back {
+    background-color: var(--secondary-color);
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    text-align: center;
+}
+
+.modal__message {
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
+}
+
+.modal__current-result,
+.modal__best-result {
+    font-size: 1rem;
+    color: var(--shadow-color);
+}
+
+.modal__best-result {
+    font-weight: 600;
+    color: var(--selection-color);
+}
+
+.hidden {
+    display: none !important;
 }

@@ -1,0 +1,15 @@
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+package-lock.json
+
+# Logs
+*.log
