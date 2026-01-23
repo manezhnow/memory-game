@@ -56,7 +56,7 @@ let flipTimeoutId = null;
 let isLocked = false;
 let isGameOver = false;
 
-function game() {
+function initGame() {
     loadBestScores();
     startGameButton.addEventListener('click', startGame);
     restartButtons.forEach(btn => btn.addEventListener('click', resetGame));
@@ -286,21 +286,16 @@ function clearAllTimeouts() {
     clearTimeout(flipTimeoutId);
     timeoutId = null;
     flipTimeoutId = null;
-    timerId = null;
 }
 
 function renderCurrentResult(timePlayed) {
     const pairsText = `Пар отгадано: ${pairsCounter} из ${totalPairs}.`;
 
-    switch (currentMode) {
-        case 'basic':
-        case 'timed':
-            modalCurrentResult.textContent = `${pairsText} Время: ${formatTime(timePlayed)}.`;
-            break;
-        case 'limited':
-            modalCurrentResult.textContent = `${pairsText} Попыток использовано: ${attemptsCounter} из ${totalAttempts}.`;
-            break;
-    }
+    const details = currentMode === 'limited'
+        ? `Попыток использовано: ${attemptsCounter} из ${totalAttempts}.`
+        : `Время: ${formatTime(timePlayed)}.`;
+
+    modalCurrentResult.textContent = `${pairsText} ${details}`;
 }
 
 function renderBestResult(timePlayed) {
@@ -329,27 +324,21 @@ function renderBestResult(timePlayed) {
 function saveBestScore() {
     const key = `${currentMode}_${currentDifficulty}`;
     const bestResult = localStorage.getItem(key);
-    let currentResult = 0;
 
-    switch (currentMode) {
-        case 'basic':
-            currentResult = Math.floor((Date.now() - gameStartTime) / 1000);
-            if (bestResult === null || currentResult < Number(bestResult)) {
-                localStorage.setItem(key, JSON.stringify(currentResult));
-            }
-            break;
-        case 'limited':
-            currentResult = attemptsCounter;
-            if (bestResult === null || currentResult < Number(bestResult)) {
-                localStorage.setItem(key, JSON.stringify(currentResult));
-            }
-            break;
-        case 'timed':
-            currentResult = timeLeft;
-            if (bestResult === null || currentResult > Number(bestResult)) {
-                localStorage.setItem(key, JSON.stringify(currentResult));
-            }
-            break;
+    const currentResults = {
+        basic: Math.floor((Date.now() - gameStartTime) / 1000),
+        limited: attemptsCounter,
+        timed: timeLeft
+    };
+
+    const currentResult = currentResults[currentMode];
+
+    const isBetter = currentMode === 'timed'
+        ? currentResult > Number(bestResult)
+        : currentResult < Number(bestResult);
+
+    if (bestResult === null || isBetter) {
+        localStorage.setItem(key, JSON.stringify(currentResult));
     }
 }
 
@@ -382,9 +371,14 @@ function loadBestScores() {
                     const cell = modeContainer.querySelector(`tr[data-difficulty="${diff}"] .result-value`);
 
                     if (value !== null) {
-                        cell.textContent = mode === 'limited'
-                            ? `${value} попыток`
-                            : formatTime(Number(value));
+                        if (mode === 'limited') {
+                            cell.textContent = `${value} попыток`;
+                        } else if (mode === 'timed') {
+                            const total = DIFFICULTY_SETTINGS[diff].time;
+                            cell.textContent = formatTime(total - Number(value));
+                        } else {
+                            cell.textContent = formatTime(Number(value));
+                        }
                     } else {
                         cell.textContent = '-';
                     }
@@ -434,4 +428,4 @@ function formatTime(sec) {
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 }
 
-document.addEventListener('DOMContentLoaded', game);
+document.addEventListener('DOMContentLoaded', initGame);
